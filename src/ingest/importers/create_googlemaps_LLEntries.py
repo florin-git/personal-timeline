@@ -180,6 +180,9 @@ class GoogleMapsImporter(GenericImporter):
         entries = self.get_type_files_deep(str(Path(self.configs.input_directory).absolute()),
                                            self.configs.filename_regex,
                                            self.configs.filetype.split(","))
+        
+        print(f"Entries: {entries}")
+
         if entries == None or len(entries) == 0:
             print("NotFound: Data expected in", self.configs.input_directory, "while importing for",
                   self.source_name)

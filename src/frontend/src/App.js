@@ -224,7 +224,12 @@ function App() {
 
     // Digital data: kindle and spotify
     if (data.img_url) { 
-      event.image = data.img_url; 
+      // Modify the image url to point to the right place
+      const urlArray = data.img_url.split("/");
+      urlArray[1] = "digital_data"
+      event.image = urlArray.slice(1).join("/");
+      // event.image = data.img_url; 
+      console.log(event.image);
     } else if (data.start_lat && data.start_long) {
       event.lat = data.start_lat;
       event.long = data.start_long;
@@ -432,7 +437,24 @@ function App() {
    * @returns
    */
   const customizedContent_v2 = (item) => {
+    console.log("I'm here", item)
     return (
+      <>
+      {/* <Card title={item.title} subTitle={item.date} className='mb-3 shadow-3'>
+        WITHOUT APP
+        {console.log(item)}
+        {item.summary && <ShowMore summary={item.summary} />}
+        {item.image && <Image src={"/digital_data/personal-data/google_photos/Pizze/IMG_20230303_215753.jpg.compressed.jpg"} alt={item.name} height={200} width={200} className="shadow-1" preview />}
+      </Card> */}
+      {/* <Card title={item.title} subTitle={item.date} className='mb-3 shadow-3'>
+        SAMPLED
+        {item.summary && <ShowMore summary={item.summary} />}
+        {item.image && <Image src={"/digital_data/images/google_photos/part 2/Google Photos/Photos from 2019/3FF4E970-B938-42E6-B780-DEEE6751F7CF.jpg.compressed.jpg"} alt={item.name} height={200} width={200} className="shadow-1" preview />}
+      </Card> */}
+      {/* WITH APP img
+      <img src={"/app/personal-data/google_photos/Pizze/IMG_20230303_215753.jpg"} alt="Logo" />;
+      WITHOUT APP img
+      <img src={"/personal-data/google_photos/Pizze/IMG_20230303_215753.jpg"} alt="Logo" />;       */}
       <Card title={item.title} subTitle={item.date} className='mb-3 shadow-3'>
         {item.summary && <ShowMore summary={item.summary} />}
         {item.image && <Image src={`${item.image}`} alt={item.name} height={200} width={200} className="shadow-1" preview />}
@@ -468,6 +490,7 @@ function App() {
         }} />
         </div>
       </Card>
+      </>
     );
   };
   /**

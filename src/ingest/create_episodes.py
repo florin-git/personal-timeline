@@ -30,13 +30,15 @@ class EpisodeCreator:
         self.app_path = app_path
         self.table = json.load(open(os.path.join(app_path, 'enriched_data.json')))
 
+        # print(self.table)
+
         # index for amazon images
         self.product_image_index = {}
 
     def create_all_episodes(self):
         """Create episodes for all episode types.
         """
-        table_names = 'books,exercise,places,purchase,streaming'.split(',')
+        table_names = 'books,exercise,places,purchase,streaming,photos'.split(',')
         all_episodes = []
         for table_name in table_names:
             print("Processing %s" % table_name)
@@ -200,11 +202,61 @@ class EpisodeCreator:
         return episodes
 
 
+    def create_photos_table(self, table: List):
+        """Create a list of photos episodes.
+        """
+        output = []
+        episodes = []
+        for rec in table:
+            if rec['source'] == 'GooglePhotos':
+                if len(rec['locations']) == 1:
+                    end_index = 0
+                else:
+                    end_index = 1
+
+                output.append({'start_time': rec['startTime'],
+                            'end_time': rec['endTime'],
+                            'textDescription': rec['textDescription'],
+                            'address': rec['locations'][0],
+                            'lat': rec['lat_lon'][0][0],
+                            'long': rec['lat_lon'][0][1],
+                            'details': rec['imageCaptions'],
+                            'img_url': rec['imageFilePath'],
+                            })
+                episodes.append({'date': rec['startTime'], 
+                                'desc': rec['textDescription'],
+                                'details': 'I took a photo of %s' % \
+                                    rec['imageCaptions']
+                                })
+
+        # output to JSON
+        json.dump(output, open(os.path.join(self.app_path, 'photos.json'), 'w'), indent=2)
+
+        # output to CSV
+        output_path = os.path.join(self.app_path, 'photos.csv')
+        pd.DataFrame.from_records(output).to_csv(output_path, index=False)
+
+        return episodes
+
+
+
     def create_streaming_table(self, table: List):
         """Create a list of streaming episodes.
         """
         output = []
         episodes = []
+
+        if os.getenv("SPOTIFY_TOKEN") is None:
+            print("SPOTIFY_TOKEN is not set. Skipping Spotify data.")
+
+            # output to JSON
+            json.dump(output, open(os.path.join(self.app_path, 'streaming.json'), 'w'), indent=2)
+
+            # output to CSV
+            output_path = os.path.join(self.app_path, 'streaming.csv')
+            pd.DataFrame.from_records(output).to_csv(output_path, index=False)
+            return episodes
+
 
         cid = os.environ['SPOTIFY_TOKEN']
         secret = os.environ['SPOTIFY_SECRET']

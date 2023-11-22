@@ -100,7 +100,10 @@ class EpisodeDeriver:
             if not found:
                 known_centers.append([center, [idx]])
         
-        max_cnt = max([len(indices) for _, indices in known_centers])
+        max_cnt = -1
+        if known_centers:
+            max_cnt = max([len(indices) for _, indices in known_centers])
+        
         for _, indices in known_centers:
             if len(indices) == max_cnt:
                 for idx in indices:
@@ -161,7 +164,7 @@ class EpisodeDeriver:
 
 
     def summarize(self, input):
-        """Use llm to detech what places are visited for each trip.
+        """Use llm to detect what places are visited for each trip.
         """
         return self.llm(input + "\n\nWhich country did I visit?\nWhich states/provinces did I visit?\nWhich cities/towns did I visit?\nWhat places did I visit?\nAnswer in 4 lines with line breaks.\n\n")
 
