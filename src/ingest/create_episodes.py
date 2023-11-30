@@ -209,11 +209,6 @@ class EpisodeCreator:
         episodes = []
         for rec in table:
             if rec['source'] == 'GooglePhotos':
-                if len(rec['locations']) == 1:
-                    end_index = 0
-                else:
-                    end_index = 1
-
                 output.append({'start_time': rec['startTime'],
                             'end_time': rec['endTime'],
                             'textDescription': rec['textDescription'],
@@ -224,7 +219,8 @@ class EpisodeCreator:
                             'img_url': rec['imageFilePath'],
                             })
                 episodes.append({'date': rec['startTime'], 
-                                'desc': rec['textDescription'],
+                                # 'desc': rec['textDescription'],
+                                'desc': rec['imageCaptions'],
                                 'details': 'I took a photo of %s' % \
                                     rec['imageCaptions']
                                 })

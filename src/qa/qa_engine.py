@@ -123,9 +123,10 @@ FINAL ANSWER:"""
 
 
 if __name__ == '__main__':
-    engine = QAEngine('public/digital_data')
-    for query in ["Did I run often?", 
-                  "How many harry potter books did I read?", 
-                  "Which cities did I visited when I traveled to Japan?"]:
-        # print(engine.query(query, method='Retrieval-based'))
-        print(engine.query(query, method='View-based'))
+    # engine = QAEngine('public/digital_data')
+    engine = QAEngine('personal-data/app_data/')
+    # for query in ["Did I run often?", 
+    #               "How many harry potter books did I read?", 
+    #               "Which cities did I visited when I traveled to Japan?"]:
+    #     # print(engine.query(query, method='Retrieval-based'))
+    #     print(engine.query(query, method='View-based'))
