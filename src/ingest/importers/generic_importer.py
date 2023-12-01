@@ -26,7 +26,7 @@ from tqdm import tqdm
 from src.common.objects.EntryTypes import EntryType
 from src.common.objects.LLEntry_obj import LLEntry
 from src.common.objects.import_configs import SourceConfigs, FieldMapping
-import parsedatetime
+from dateutil import parser
 
 #Keep imports that may be used in dynamic function evaluation
 from datetime import datetime, timedelta
@@ -42,7 +42,6 @@ class GenericImporter:
         self.source_name = source_name
         self.entry_type = entry_type
         self.configs = configs
-        self.cal = parsedatetime.Calendar()
 
     @abstractmethod
     def import_data(self, field_mappings:list):
@@ -122,7 +121,7 @@ class GenericImporter:
                         if ll_attribe_type == "datetime":
                             #print("Converting", src_value,"to datetime")
                             try:
-                                dt_attr_value=self.cal.parseDT(src_value)[0].isoformat()
+                                dt_attr_value = str(parser.isoparse(src_value))
                             except:
                                 #TODO: Fix Silent return, find a way to identify corrupt row
                                 return

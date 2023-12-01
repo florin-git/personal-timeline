@@ -18,7 +18,6 @@ import os
 from pathlib import Path
 import re
 import pytz
-from parsedatetime import parsedatetime
 from timezonefinder import TimezoneFinder
 import datetime
 from datetime import datetime
@@ -43,7 +42,6 @@ class PhotoImporter(GenericImporter):
         self.source_name = source_name
         self.entry_type = entry_type
         self.configs = configs
-        self.cal = parsedatetime.Calendar()
 
     @abstractmethod
     def import_photos(self, cwd, subdir):

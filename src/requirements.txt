@@ -13,7 +13,7 @@ requests
 geopy
 tzwhere
 pandas
-parsedatetime
+python-dateutil
 matplotlib
 urllib3
 elasticsearch-dsl

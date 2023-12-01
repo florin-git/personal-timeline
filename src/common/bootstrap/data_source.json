@@ -67,11 +67,11 @@
     "entry_type": "purchase",
     "configs": {
       "input_directory": "personal-data/amazon",
-      "filetype": "csv",
+      "filetype": "json",
       "filetype_configs": {
         "skiprows": 0
       },
-      "dedup_key": ["source","purchase_id","productName"]
+      "dedup_key": ["source", "purchase_id", "productName"]
     },
     "field_mappings": [
       {
@@ -87,13 +87,13 @@
         "target_type": "str"
       },
       {
-        "src": "Title",
+        "src": "Product Name",
         "target": "productName",
         "src_type": "str",
         "target_type": "str"
       },
       {
-        "src": "Purchase Price Per Unit",
+        "src": "Unit Price",
         "target": "productPrice",
         "src_type": "str",
         "target_type": "number"
@@ -105,7 +105,7 @@
         "target_type": "number"
       },
       {
-        "src": "ASIN/ISBN",
+        "src": "ASIN",
         "target": "productId",
         "src_type": "str",
         "target_type": "str"
